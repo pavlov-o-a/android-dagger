@@ -1,9 +1,20 @@
 package com.example.android.dagger.di
 
-import com.example.android.dagger.registration.RegistrationActivity
+import android.content.Context
+import com.example.android.dagger.main.MainActivity
+import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
-@Component
+@Singleton
+@Component(modules = [StorageModule::class, AppSubcomponents::class])
 interface AppComponent {
-    fun inject(activity: RegistrationActivity)
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance context: Context): AppComponent
+    }
+
+    fun registration(): RegistrationComponent.Factory
+    fun inject(activity: MainActivity)
 }
